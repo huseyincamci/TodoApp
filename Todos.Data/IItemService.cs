@@ -8,8 +8,8 @@ namespace Todos.Data
 {
     public interface IItemService
     {
-        Item GetItemById();
-        List<Item> GetAllItems();
+        Item GetItemById(int id);
+        IEnumerable<Item> GetAllItemsByTodoListId();
 
         Task CreateItem(int todoListId, Item item);
         Task DeleteItem(int id);
