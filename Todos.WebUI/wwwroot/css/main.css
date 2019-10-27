@@ -1,0 +1,55 @@
+﻿body {
+  position: relative;
+  padding-left: 200px; }
+
+.logo {
+  height: 79px;
+  line-height: 79px;
+  text-align: center;
+  font-size: 1.5em;
+  background-color: rgba(0, 0, 0, 0.4); }
+  .logo a {
+    color: white;
+    display: block; }
+
+#left-side {
+  background-color: brown;
+  width: 200px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  box-shadow: 1px 0 4px 0 rgba(0, 0, 0, 0.3); }
+
+.section-menu {
+  padding: 10px; }
+  .section-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+    .section-menu ul li a {
+      padding: 10px;
+      text-align: left;
+      display: block;
+      background-color: white;
+      color: brown;
+      margin-bottom: 10px;
+      border-radius: 2px;
+      font-size: 1.1em; }
+      .section-menu ul li a:hover {
+        text-decoration: none; }
+
+/*To Do List Card*/
+.todListCard .card-header {
+  border-bottom: 1px solid #ddd; }
+
+.todListCard .card-body {
+  padding: 0; }
+
+.todListCard .list-group-item:first-child {
+  border-radius: 0; }
+
+.todListCard .list-group-item {
+  border: none; }
+  .todListCard .list-group-item:nth-child(2n) {
+    background-color: #eee; }

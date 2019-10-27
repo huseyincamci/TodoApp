@@ -3,11 +3,63 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <link href="~/lib/bootswatch/materia/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/fontawesome.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/brands.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/solid.css" rel="stylesheet" />
+    <link href="~/css/main.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        @*<a class="navbar-brand" href="#">Todo Application</a>*@
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor03">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid mt-4">
         @RenderBody()
     </div>
+
+
+    <section id="left-side">
+        <div class="logo">
+            <a href="#">Todo List</a>
+        </div>
+        <div class="section-menu">
+            <ul>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-clipboard-list"></i>
+                        To Do List
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-user"></i>
+                        Account
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+    @RenderSection("Scripts", false)
 </body>
 </html>
