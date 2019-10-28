@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using Todos.Data;
@@ -7,6 +8,7 @@ using Todos.WebUI.Models;
 
 namespace Todos.WebUI.Controllers
 {
+    [Authorize]
     public class TodoListController : Controller
     {
         private readonly ITodoListService _todoListService;
