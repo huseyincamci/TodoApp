@@ -10,6 +10,7 @@
         <div class="card border-secondary mb-3">
             <div class="card-header">@ViewData["Title"]</div>
             <div class="card-body">
+                <div class="text-danger" asp-validation-summary="All"></div>
                 <form class="form-horizontal" method="post" asp-action="Login">
                     <div class="form-group">
                         <label asp-for="UserName" class="cols-sm-2 control-label"></label>

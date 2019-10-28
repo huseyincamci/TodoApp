@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -12,20 +13,25 @@ namespace Todos.WebUI.Controllers
     public class TodoListController : Controller
     {
         private readonly ITodoListService _todoListService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public TodoListController(ITodoListService todoListService)
+        public TodoListController(ITodoListService todoListService,
+            UserManager<ApplicationUser> userManager)
         {
             _todoListService = todoListService;
+            _userManager = userManager;
         }
 
         [HttpPost("api/todos")]
         public async Task<IActionResult> Post([FromBody]TodoListRequest todoListDto)
         {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
             var todoList = new TodoList
             {
                 Name = todoListDto.Name,
                 Created = DateTime.UtcNow,
-                User = null
+                User = user
             };
             await _todoListService.CreateTodoList(todoList);
             return Ok(todoListDto.Name);

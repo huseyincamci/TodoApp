@@ -18,9 +18,21 @@ namespace Todos.WebUI.Controllers
             _signInManager = signInManager;
         }
 
-        public IActionResult Index()
+        [HttpGet("account/profile")]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (user != null)
+            {
+                var indexVm = new AccountIndexViewModel
+                {
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    FullName = user.FullName
+                };
+                return View(indexVm);
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult Login()
@@ -31,16 +43,21 @@ namespace Todos.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            var user = await _userManager.FindByNameAsync(model.UserName);
-            if (user != null)
+            if (ModelState.IsValid)
             {
-                var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
-                if (signInResult.Succeeded)
+                var user = await _userManager.FindByNameAsync(model.UserName);
+                if (user != null)
                 {
-                    return RedirectToAction("Index", "Home");
+                    var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                    if (signInResult.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
+
+                ModelState.AddModelError("", "Username and password combination is not true");
             }
-            return Ok();
+            return View();
         }
 
         public IActionResult Register()
@@ -51,19 +68,22 @@ namespace Todos.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            var user = new ApplicationUser
+            if (ModelState.IsValid)
             {
-                Email = model.Email,
-                FullName = model.FullName,
-                UserName = model.UserName
-            };
+                var user = new ApplicationUser
+                {
+                    Email = model.Email,
+                    FullName = model.FullName,
+                    UserName = model.UserName
+                };
 
-            var identityResult = await _userManager.CreateAsync(user, model.Password);
-            if (identityResult.Succeeded)
-            {
-                await _signInManager.SignOutAsync();
-                await _signInManager.SignInAsync(user, false);
-                return RedirectToAction("Index", "Home");
+                var identityResult = await _userManager.CreateAsync(user, model.Password);
+                if (identityResult.Succeeded)
+                {
+                    await _signInManager.SignOutAsync();
+                    await _signInManager.SignInAsync(user, false);
+                    return RedirectToAction("Index", "Home");
+                }
             }
             return View();
         }

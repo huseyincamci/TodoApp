@@ -1,0 +1,25 @@
+﻿@model AccountIndexViewModel
+
+@{
+    ViewData["Title"] = $"Welcome {User.Identity.Name}";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card border-info mb-3">
+            <div class="card-header">
+                <i class="fas fa-user"></i>
+                User Informations
+            </div>
+            <div class="card-body">
+                Username: @Model.UserName <br />
+                Full Name: @Model.FullName <br />
+                Email: @Model.Email
+            </div>
+        </div>
+    </div>
+</div>
+
