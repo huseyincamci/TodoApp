@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Todos.WebUI.Controllers
 {
@@ -11,6 +7,11 @@ namespace Todos.WebUI.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public PartialViewResult LoadTodoModal()
+        {
+            return PartialView("_CreateTodoList");
         }
     }
 }

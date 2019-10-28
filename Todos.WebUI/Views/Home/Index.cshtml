@@ -3,5 +3,39 @@
     ViewData["Title"] = "Home Page";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2>
+    @ViewData["Title"]
+    <a href="#" class="btn btn-dark btn-sm float-right" data-toggle="modal" data-target="#CreateTodoListModal">
+        <i class="fas fa-plus"></i>
+        New To Do List
+    </a>
+</h2>
+<hr />
+
+@Html.Partial("_Modal", new ModalConfiguration { Id = "CreateTodoListModal", Title = "Create New To Do List", BodyId = "CreateTodoListModalBody", TitleId = "CreateTodoListModalTitle" });
+
+@section Scripts {
+    <script>
+        $(function () {
+            $("#CreateTodoListModal").on("show.bs.modal", function (e) {
+                $("#CreateTodoListModalBody").load("/Home/LoadTodoModal");
+            })
+
+            var saveBtn = $("#saveBtn");
+            saveBtn.on("click", function (e) {
+                var todoListName = $("#todoListName").val();
+
+                if (todoListName.trim() != "") {
+                    axios.post("/api/todos", {
+                        'name': todoListName.trim()
+                    }).then(function (response) {
+                        if (response.status == 200) {
+                            console.log("Your To Do List has been created successfully")
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
 

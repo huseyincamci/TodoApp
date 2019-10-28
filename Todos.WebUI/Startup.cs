@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Todos.Data;
+using Todos.Services;
 
 namespace Todos.WebUI
 {
@@ -20,6 +21,8 @@ namespace Todos.WebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<ITodoListService, TodoListService>();
 
             services.AddMvc();
         }
