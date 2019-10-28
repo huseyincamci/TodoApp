@@ -15,7 +15,7 @@ namespace Todos.Services
             Context = context;
         }
 
-        public ApplicationDbContext Context { get; }
+        protected ApplicationDbContext Context { get; }
 
         public async Task CreateItem(int todoListId, Item item)
         {
