@@ -17,4 +17,9 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Todos.Data\Todos.Data.csproj" />
+    <ProjectReference Include="..\Todos.Services\Todos.Services.csproj" />
+  </ItemGroup>
+
 </Project>
