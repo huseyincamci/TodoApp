@@ -32,9 +32,9 @@ namespace Todos.Services
             await Context.SaveChangesAsync();
         }
 
-        public IEnumerable<Item> GetAllItemsByTodoListId()
+        public IEnumerable<Item> GetAllItemsByTodoListId(int todoListId)
         {
-            return Context.Items;
+            return Context.Items.Where(i => i.Todos.Id == todoListId).ToList();
         }
 
         public Item GetItemById(int id)

@@ -10,6 +10,7 @@ namespace Todos.Data
     {
         TodoList GetTodoListById(int id);
         IEnumerable<TodoList> GetAllTodoList();
+        IEnumerable<TodoList> GetAllTodoListByUserId(string userId);
 
         Task CreateTodoList(TodoList todoList);
         Task DeleteTodoList(int id);

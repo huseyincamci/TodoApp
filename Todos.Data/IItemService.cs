@@ -9,7 +9,7 @@ namespace Todos.Data
     public interface IItemService
     {
         Item GetItemById(int id);
-        IEnumerable<Item> GetAllItemsByTodoListId();
+        IEnumerable<Item> GetAllItemsByTodoListId(int todoListId);
 
         Task CreateItem(int todoListId, Item item);
         Task DeleteItem(int id);

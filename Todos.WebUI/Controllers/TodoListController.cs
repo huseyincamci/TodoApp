@@ -36,5 +36,16 @@ namespace Todos.WebUI.Controllers
             await _todoListService.CreateTodoList(todoList);
             return Ok(todoListDto.Name);
         }
+
+        [HttpDelete("api/todos/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var todoList = _todoListService.GetTodoListById(id);
+            if (todoList == null)
+                return NotFound();
+
+            await _todoListService.DeleteTodoList(id);
+            return NoContent();
+        }
     }
 }

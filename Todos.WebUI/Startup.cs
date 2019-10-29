@@ -36,6 +36,7 @@ namespace Todos.WebUI
                 .AddDefaultTokenProviders();
 
             services.AddScoped<ITodoListService, TodoListService>();
+            services.AddScoped<IItemService, ItemService>();
 
             services.AddMvc();
             services.AddRouting(options => options.LowercaseUrls = true);

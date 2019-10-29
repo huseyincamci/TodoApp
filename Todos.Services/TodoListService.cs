@@ -35,6 +35,11 @@ namespace Todos.Services
             return Context.TodoList;
         }
 
+        public IEnumerable<TodoList> GetAllTodoListByUserId(string userId)
+        {
+            return Context.TodoList.Where(t=>t.User.Id == userId);
+        }
+
         public TodoList GetTodoListById(int id)
         {
             return Context.TodoList.FirstOrDefault(t => t.Id == id);

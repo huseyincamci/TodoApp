@@ -1,4 +1,4 @@
-﻿
+﻿@model HomeIndexViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -12,6 +12,46 @@
 </h2>
 <hr />
 
+<div class="row">
+    @if (Model.TodoList.Any())
+    {
+        @foreach (var todoList in Model.TodoList)
+        {
+            <div class="col-md-4">
+                <div class="card mb-3 todListCard" style="max-width: 20rem;">
+                    <div class="card-header">
+                        <h5>@todoList.Name <a href="#" class="btn btn-sm float-right">Add</a></h5>
+                    </div>
+                    <div class="card-body" style="padding: 10px;">
+                        @if (todoList.Items.Any())
+                        {
+                        <ul class="list-group">
+                            @foreach (var item in todoList.Items)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="@item.Id">
+                                        <label class="custom-control-label" for="customCheck1">@item.Name</label>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                        }
+                        else
+                        {
+                            <div class="alert alert-info alert-dismissible">
+                                No todo items
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+
 @Html.Partial("_Modal", new ModalConfiguration { Id = "CreateTodoListModal", Title = "Create New To Do List", BodyId = "CreateTodoListModalBody", TitleId = "CreateTodoListModalTitle" })
 
 @section Scripts {
@@ -21,13 +61,16 @@
                 $("#CreateTodoListModalBody").load("/Home/LoadTodoModal");
             })
 
-            var saveBtn = $("#saveBtn");
-            saveBtn.on("click", function (e) {
-                var todoListName = $("#todoListName").val();
+            var btnSave = $("#saveBtn");
+            btnSave.on("click", function (e) {
+                var todoListNameInput = $("#todoListName");
+                var todoListName = todoListNameInput.val().trim();
 
-                if (todoListName.trim() != "") {
+                todoListNameInput.val("");
+
+                if (todoListName != "") {
                     axios.post("/api/todos", {
-                        'name': todoListName.trim()
+                        'name': todoListName
                     }).then(function (response) {
                         if (response.status == 200) {
                             console.log("Your To Do List has been created successfully")
