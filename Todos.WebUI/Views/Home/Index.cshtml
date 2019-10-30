@@ -18,32 +18,41 @@
         @foreach (var todoList in Model.TodoList)
         {
             <div class="col-md-4">
-                <div class="card mb-3 todListCard" style="max-width: 20rem;">
+                <div class="card mb-3 todoListCard" style="max-width: 20rem;">
                     <div class="card-header">
-                        <h5>@todoList.Name <a href="#" class="btn btn-sm float-right">Add</a></h5>
+                        <h5>
+                            @todoList.Name
+
+                        </h5>
                     </div>
                     <div class="card-body" style="padding: 10px;">
                         @if (todoList.Items.Any())
                         {
-                        <ul class="list-group">
-                            @foreach (var item in todoList.Items)
-                            {
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <ul class="list-group">
+                                @foreach (var item in todoList.Items)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="@item.Id">
-                                        <label class="custom-control-label" for="customCheck1">@item.Name</label>
-                                    </div>
-                                </li>
-                            }
-                        </ul>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="@item.Id">
+                                            <label class="custom-control-label" for="customCheck1">@item.Name</label>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
                         }
                         else
                         {
-                            <div class="alert alert-info alert-dismissible">
+                            <div class="alert alert-warning alert-dismissible">
                                 No todo items
                             </div>
                         }
+                    </div>
+                    <div class="card-footer text-muted">
+                        <a href="#" class="btn btn-info btn-sm float-right ml-1">Add</a>
+                        <a href="#" class="btn btn-danger btn-sm float-right btnDeleteTodoList" data-todo-id="@todoList.Id">
+                            <i class="fas fa-trash"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -61,8 +70,10 @@
                 $("#CreateTodoListModalBody").load("/Home/LoadTodoModal");
             })
 
+            //Create new To Do List
             var btnSave = $("#saveBtn");
             btnSave.on("click", function (e) {
+                e.preventDefault();
                 var todoListNameInput = $("#todoListName");
                 var todoListName = todoListNameInput.val().trim();
 
@@ -77,6 +88,23 @@
                         }
                     });
                 }
+            });
+
+            //Delete To Do List
+            var btnDeleteTodoList = $(".btnDeleteTodoList");
+            btnDeleteTodoList.on("click", function (e) {
+                e.preventDefault();
+                var todoId = $(this).data("todo-id");
+                var url = "/api/todos/" + todoId;
+                var card = $(this).parents(".todoListCard");
+
+                axios.delete(url)
+                    .then(function (response) {
+                        if (response.status === 204) {
+                            console.log(response);
+                            card.remove();
+                        }
+                    });
             });
         });
     </script>

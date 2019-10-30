@@ -32,14 +32,6 @@
                     </li>
                 </ul>
             }
-            else
-            {
-                <ul class="navbar-nav mr-0">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Account" asp-action="SignOut">Logout</a>
-                    </li>
-                </ul>
-            }
         </div>
     </nav>
     <div class="container-fluid mt-4">
@@ -68,7 +60,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a asp-controller="Account" asp-action="SignOut">
                             <i class="fas fa-sign-out-alt"></i>
                             Logout
                         </a>
