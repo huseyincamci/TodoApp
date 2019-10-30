@@ -27,6 +27,7 @@ namespace Todos.Services
         {
             var todoList = GetTodoListById(id);
             Context.TodoList.Remove(todoList);
+            Context.Items.RemoveRange(Context.Items.Where(i => i.Todos.Id == id));
             await Context.SaveChangesAsync();
         }
 
@@ -37,7 +38,7 @@ namespace Todos.Services
 
         public IEnumerable<TodoList> GetAllTodoListByUserId(string userId)
         {
-            return Context.TodoList.Where(t=>t.User.Id == userId);
+            return Context.TodoList.Where(t => t.User.Id == userId);
         }
 
         public TodoList GetTodoListById(int id)

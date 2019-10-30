@@ -84,6 +84,7 @@
                         'name': todoListName
                     }).then(function (response) {
                         if (response.status == 200) {
+                            window.location = "home";
                             console.log("Your To Do List has been created successfully")
                         }
                     });
@@ -96,7 +97,7 @@
                 e.preventDefault();
                 var todoId = $(this).data("todo-id");
                 var url = "/api/todos/" + todoId;
-                var card = $(this).parents(".todoListCard");
+                var card = $(this).parents(".todoListCard").parent();
 
                 axios.delete(url)
                     .then(function (response) {
