@@ -49,7 +49,7 @@
                         }
                     </div>
                     <div class="card-footer text-muted">
-                        <a href="#" class="btn btn-info btn-sm float-right ml-1">Add</a>
+                        <a href="#" class="btn btn-info btn-sm float-right ml-1 btnAddItem" data-toggle="modal" data-target="#CreateNewItemModal" data-todo-id="@todoList.Id">Add</a>
                         <a href="#" class="btn btn-danger btn-sm float-right btnDeleteTodoList" data-todo-id="@todoList.Id">
                             <i class="fas fa-trash"></i>
                         </a>
@@ -61,14 +61,21 @@
 </div>
 
 
-@Html.Partial("_Modal", new ModalConfiguration { Id = "CreateTodoListModal", Title = "Create New To Do List", BodyId = "CreateTodoListModalBody", TitleId = "CreateTodoListModalTitle" })
+@Html.Partial("_Modal", new ModalConfiguration { Id = "CreateTodoListModal", Title = "Create New To Do List", BodyId = "CreateTodoListModalBody", TitleId = "CreateTodoListModalTitle", ButtonId = "saveBtn" })
+
+@Html.Partial("_Modal", new ModalConfiguration { Id = "CreateNewItemModal", Title = "Create New Item", BodyId = "CreateNewItemModalBody", TitleId = "CreateNewItemModalTitle", ButtonId = "saveItem" })
+
 
 @section Scripts {
     <script>
         $(function () {
             $("#CreateTodoListModal").on("show.bs.modal", function (e) {
                 $("#CreateTodoListModalBody").load("/Home/LoadTodoModal");
-            })
+            });
+
+            $("#CreateNewItemModal").on("show.bs.modal", function (e) {
+                $("#CreateNewItemModalBody").load("/Home/LoadItemModal");
+            });
 
             //Create new To Do List
             var btnSave = $("#saveBtn");
@@ -102,8 +109,34 @@
                 axios.delete(url)
                     .then(function (response) {
                         if (response.status === 204) {
-                            console.log(response);
                             card.remove();
+                        }
+                    });
+            });
+
+            //Add new item
+            var btnAddItem = $(".btnAddItem");
+            var todoId;
+            btnAddItem.on("click", function (e) {
+                e.preventDefault();
+                todoId = $(this).data("todo-id");
+            });
+
+            var btnSaveItem = $("#saveItem");
+            btnSaveItem.on("click", function (e) {
+                e.preventDefault();
+                var itemDto = {
+                    "Name": $("#itemName").val().trim(),
+                    "Deadline": $("#itemDeadline").val(),
+                    "Description": $("#itemDescription").val().trim(),
+                    "TodoId": todoId
+                };
+
+                
+                axios.post("/api/item", itemDto)
+                    .then(function (response) {
+                        if (response.status === 200) {
+                            window.location = "home";
                         }
                     });
             });

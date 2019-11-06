@@ -11,5 +11,6 @@ namespace Todos.WebUI.Models
         public string TitleId { get; set; }
         public string Title { get; set; }
         public string BodyId { get; set; }
+        public string ButtonId { get; set; }
     }
 }
