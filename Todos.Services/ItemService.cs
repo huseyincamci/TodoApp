@@ -32,6 +32,12 @@ namespace Todos.Services
             await Context.SaveChangesAsync();
         }
 
+        public async Task EditItem(Item item)
+        {
+            Context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            await Context.SaveChangesAsync();
+        }
+
         public IEnumerable<Item> GetAllItemsByTodoListId(int todoListId)
         {
             return Context.Items.Where(i => i.Todos.Id == todoListId).ToList();

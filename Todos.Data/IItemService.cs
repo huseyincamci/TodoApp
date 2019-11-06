@@ -12,6 +12,7 @@ namespace Todos.Data
         IEnumerable<Item> GetAllItemsByTodoListId(int todoListId);
 
         Task CreateItem(int todoListId, Item item);
+        Task EditItem(Item item);
         Task DeleteItem(int id);
         Task MarkItemAsComplete(int id);
     }

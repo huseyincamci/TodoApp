@@ -28,18 +28,14 @@
                     <div class="card-body" style="padding: 10px;">
                         @if (todoList.Items.Any())
                         {
-                            <ul class="list-group">
+                            <div class="list-group">
                                 @foreach (var item in todoList.Items)
                                 {
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="@item.Id">
-                                            <label class="custom-control-label" for="customCheck1">@item.Name</label>
-                                        </div>
-                                    </li>
+                                    <a href="#" class="list-group-item list-group-item-action showEditItemModal" data-item-id="@item.Id" data-toggle="modal" data-target="#EditItemModal">
+                                        @item.Name
+                                    </a>
                                 }
-                            </ul>
+                            </div>
                         }
                         else
                         {
@@ -65,6 +61,8 @@
 
 @Html.Partial("_Modal", new ModalConfiguration { Id = "CreateNewItemModal", Title = "Create New Item", BodyId = "CreateNewItemModalBody", TitleId = "CreateNewItemModalTitle", ButtonId = "saveItem" })
 
+@Html.Partial("_Modal", new ModalConfiguration { Id = "EditItemModal", Title = "Edit Item", BodyId = "EditItemModalBody", TitleId = "EditItemModalTitle", ButtonId = "editItem" })
+
 
 @section Scripts {
     <script src="~/lib/bootbox.js/bootbox.min.js"></script>
@@ -77,6 +75,7 @@
             $("#CreateNewItemModal").on("show.bs.modal", function (e) {
                 $("#CreateNewItemModalBody").load("/Home/LoadItemModal");
             });
+
 
             //Create new To Do List
             var btnSave = $("#saveBtn");
@@ -119,7 +118,6 @@
                 })
             });
 
-
             //Add new item
             var btnAddItem = $(".btnAddItem");
             var todoId;
@@ -138,9 +136,52 @@
                     "TodoId": todoId
                 };
 
-
                 axios.post("/api/item", itemDto)
                     .then(function (response) {
+                        if (response.status === 200) {
+                            window.location = "home";
+                        }
+                    });
+            });
+
+            //Show edit item modal
+            var showEditItemModal = $(".showEditItemModal");
+            var itemId;
+            showEditItemModal.on("click", function (e) {
+                e.preventDefault();
+                itemId = $(this).data("item-id");
+            });
+
+            //Edit specific item
+            $("#EditItemModal").on("show.bs.modal", function (e) {
+                $("#EditItemModalBody").load("/Home/LoadEditItemModal");
+                axios.get("/api/item/" + itemId)
+                    .then(function (response) {
+                        if (response.status === 200) {
+                            var date = response.data.deadline.substr(0, response.data.deadline.indexOf("T"));
+                            $("#itemName").val(response.data.name);
+                            $("#itemDescription").val(response.data.description);
+                            $("#itemStatus").val(response.data.status);
+                            $("#itemDeadline").val(date);
+                            $("#todoId").val(response.data.id);
+                        }
+                    });
+            });
+
+            var editItem = $("#editItem");
+            editItem.on("click", function (e) {
+                e.preventDefault();
+                var itemDto = {
+                    "Name": $("#itemName").val().trim(),
+                    "Deadline": $("#itemDeadline").val(),
+                    "Description": $("#itemDescription").val().trim(),
+                    "Status": $("#itemStatus").val(),
+                    "TodoId": $("#todoId").val()
+                };
+
+                axios.put("/api/item", itemDto)
+                    .then(function (response) {
+                        console.log(response);
                         if (response.status === 200) {
                             window.location = "home";
                         }

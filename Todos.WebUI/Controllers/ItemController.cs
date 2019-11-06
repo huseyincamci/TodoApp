@@ -18,6 +18,13 @@ namespace Todos.WebUI.Controllers
             _itemService = itemService;
         }
 
+        [HttpGet("api/item/{id}")]
+        public IActionResult Get(int id)
+        {
+            var item =  _itemService.GetItemById(id);
+            return Ok(item);
+        }
+
         [HttpPost("api/item")]
         public async Task<IActionResult> Post([FromBody] ItemDto itemDto)
         {
@@ -30,6 +37,21 @@ namespace Todos.WebUI.Controllers
             };
             await _itemService.CreateItem(itemDto.TodoId, item);
             return Ok(new { Created = true });
+        }
+
+        [HttpPut("api/item")]
+        public async Task<IActionResult> Put([FromBody] ItemDto itemDto)
+        {
+            var item = new Item
+            {
+                Id = itemDto.TodoId,
+                Name = itemDto.Name,
+                Description = itemDto.Description,
+                Deadline = itemDto.Deadline,
+                Status = itemDto.Status
+            };
+            await _itemService.EditItem(item);
+            return Ok(new { Edit = true });
         }
     }
 }

@@ -58,5 +58,10 @@ namespace Todos.WebUI.Controllers
         {
             return PartialView("_CreateItem");
         }
+
+        public PartialViewResult LoadEditItemModal()
+        {
+            return PartialView("_EditItem");
+        }
     }
 }
