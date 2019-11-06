@@ -67,6 +67,7 @@
 
 
 @section Scripts {
+    <script src="~/lib/bootbox.js/bootbox.min.js"></script>
     <script>
         $(function () {
             $("#CreateTodoListModal").on("show.bs.modal", function (e) {
@@ -106,13 +107,18 @@
                 var url = "/api/todos/" + todoId;
                 var card = $(this).parents(".todoListCard").parent();
 
-                axios.delete(url)
-                    .then(function (response) {
-                        if (response.status === 204) {
-                            card.remove();
-                        }
-                    });
+                bootbox.confirm("Are you sure to delete the todolist?", function (result) {
+                    if (result) {
+                        axios.delete(url)
+                            .then(function (response) {
+                                if (response.status === 204) {
+                                    card.remove();
+                                }
+                            });
+                    }
+                })
             });
+
 
             //Add new item
             var btnAddItem = $(".btnAddItem");
@@ -132,7 +138,7 @@
                     "TodoId": todoId
                 };
 
-                
+
                 axios.post("/api/item", itemDto)
                     .then(function (response) {
                         if (response.status === 200) {
