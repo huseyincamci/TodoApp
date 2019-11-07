@@ -53,5 +53,12 @@ namespace Todos.WebUI.Controllers
             await _itemService.EditItem(item);
             return Ok(new { Edit = true });
         }
+
+        [HttpDelete("api/item/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _itemService.DeleteItem(id);
+            return NoContent();
+        }
     }
 }

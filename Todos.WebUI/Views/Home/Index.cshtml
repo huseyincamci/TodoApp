@@ -165,6 +165,26 @@
                             $("input[name=customRadio][value=" + response.data.status + "]").prop("checked", true);
                             $("#itemDeadline").val(date);
                             $("#todoId").val(response.data.id);
+                            $("#itemId").val(itemId);
+
+
+
+                            //Delete item
+                            var btnDeleteItem = $("#deleteItem");
+                            btnDeleteItem.on("click", function (e) {
+                                e.preventDefault();
+                                console.log(btnDeleteItem)
+                                bootbox.confirm("Are you sure to delete the item?", function (result) {
+                                    if (result) {
+                                        axios.delete("/api/item/" + itemId)
+                                            .then(function (response) {
+                                                if (response.status === 204) {
+                                                    window.location = "home";
+                                                }
+                                            });
+                                    }
+                                })
+                            })
                         }
                     });
             });
@@ -187,6 +207,9 @@
                         }
                     });
             });
+
+
+
         });
     </script>
 }
