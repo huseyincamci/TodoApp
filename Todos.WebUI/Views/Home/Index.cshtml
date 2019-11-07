@@ -133,6 +133,7 @@
                     "Name": $("#itemName").val().trim(),
                     "Deadline": $("#itemDeadline").val(),
                     "Description": $("#itemDescription").val().trim(),
+                    "Status": $("[name='customRadio']:checked").val(),
                     "TodoId": todoId
                 };
 
@@ -161,7 +162,7 @@
                             var date = response.data.deadline.substr(0, response.data.deadline.indexOf("T"));
                             $("#itemName").val(response.data.name);
                             $("#itemDescription").val(response.data.description);
-                            $("#itemStatus").val(response.data.status);
+                            $("input[name=customRadio][value=" + response.data.status + "]").prop("checked", true);
                             $("#itemDeadline").val(date);
                             $("#todoId").val(response.data.id);
                         }
@@ -175,10 +176,9 @@
                     "Name": $("#itemName").val().trim(),
                     "Deadline": $("#itemDeadline").val(),
                     "Description": $("#itemDescription").val().trim(),
-                    "Status": $("#itemStatus").val(),
+                    "Status": $("[name='customRadio']:checked").val(),
                     "TodoId": $("#todoId").val()
                 };
-
                 axios.put("/api/item", itemDto)
                     .then(function (response) {
                         console.log(response);

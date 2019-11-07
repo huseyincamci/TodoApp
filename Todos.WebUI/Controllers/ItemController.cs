@@ -33,7 +33,7 @@ namespace Todos.WebUI.Controllers
                 Name = itemDto.Name,
                 Description = itemDto.Description,
                 Deadline = itemDto.Deadline,
-                Status = false
+                Status = itemDto.Status
             };
             await _itemService.CreateItem(itemDto.TodoId, item);
             return Ok(new { Created = true });
